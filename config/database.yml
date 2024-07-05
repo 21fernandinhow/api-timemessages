@@ -75,19 +75,16 @@ test:
 # the values provided in this file. Alternatively, you can specify a connection
 # URL environment variable explicitly:
 #
-#   production:
-#     url: <%= ENV["MY_APP_DATABASE_URL"] %>
+  production:
+    url: <%= ENV["DATABASE_PRIVATE_URL"] %>
 #
 # Read https://guides.rubyonrails.org/configuring.html#configuring-a-database
 # for a full overview on how database connection configuration can be specified.
 #
-production:
-  <<: *default
-  adapter: postgresql
-  encoding: unicode
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  database: <%= ENV['DATABASE_NAME'] %>
-  username: <%= ENV['DATABASE_USERNAME'] %>
-  password: <%= ENV['DATABASE_PASSWORD'] %>
-  host: <%= ENV['DATABASE_HOST'] %>
-  port: <%= ENV['DATABASE_PORT'] %>
+# production:
+#   <<: *default
+#   database: <%= ENV["PGDATABASE"] %>
+#   username: <%= ENV["PGUSER"] %>
+#   password: <%= ENV["PGPASSWORD"] %>
+#   host: <%= ENV["PGHOST"] %>
+#   port: <%= ENV["PGPORT"] %>
