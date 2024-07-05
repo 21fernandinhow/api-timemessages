@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Time messages</h1>
+
+<div id="time_messages">
+  <% @time_messages.each do |time_message| %>
+    <%= render time_message %>
+    <p>
+      <%= link_to "Show this time message", time_message %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New time message", new_time_message_path %>
