@@ -2,8 +2,8 @@ class CreateTimeMessages < ActiveRecord::Migration[7.1]
   def change
     create_table :time_messages do |t|
       t.string :content
-      t.datetime :dateToOpen
-      t.references :user, null: false, foreign_key: true
+      t.datetime :date_to_open
+      t.string :user_email, null: false, unique: true
 
       t.timestamps
     end

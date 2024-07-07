@@ -6,15 +6,126 @@
     "description": "API for managing time messages in a time capsule"
   },
   "paths": {
-    "/time_messages": {
+    "/users": {
+      "get": {
+        "summary": "List all Users",
+        "tags": ["Users"],
+        "responses": {
+          "200": {
+            "description": "list of users"
+          }
+        }
+      },
       "post": {
-        "summary": "Create a TimeMessage",
-        "tags": [
-          "TimeMessages"
-        ],
-        "parameters": [
-
-        ],
+        "summary": "Create a User",
+        "tags": ["Users"],
+        "responses": {
+          "201": {
+            "description": "user created"
+          },
+          "422": {
+            "description": "invalid request"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "required": ["email"]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_email}": {
+      "parameters": [
+        {
+          "name": "user_email",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "summary": "Retrieve a User",
+        "tags": ["Users"],
+        "responses": {
+          "200": {
+            "description": "user found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "email": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["id", "email"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "user not found"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update a User",
+        "tags": ["Users"],
+        "responses": {
+          "200": {
+            "description": "user updated"
+          },
+          "422": {
+            "description": "invalid request"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a User",
+        "tags": ["Users"],
+        "responses": {
+          "204": {
+            "description": "user deleted"
+          },
+          "404": {
+            "description": "user not found"
+          }
+        }
+      }
+    },
+    "/users/{user_email}/time_messages": {
+      "post": {
+        "summary": "Create a TimeMessage for a User",
+        "tags": ["TimeMessages"],
         "responses": {
           "201": {
             "description": "time_message created"
@@ -29,9 +140,6 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "user_id": {
-                    "type": "integer"
-                  },
                   "content": {
                     "type": "string"
                   },
@@ -40,21 +148,15 @@
                     "format": "date-time"
                   }
                 },
-                "required": [
-                  "user_id",
-                  "content",
-                  "date_to_open"
-                ]
+                "required": ["content", "date_to_open"]
               }
             }
           }
         }
       },
       "get": {
-        "summary": "List all TimeMessages",
-        "tags": [
-          "TimeMessages"
-        ],
+        "summary": "List all TimeMessages for a User",
+        "tags": ["TimeMessages"],
         "responses": {
           "200": {
             "description": "list of time_messages"
@@ -62,8 +164,16 @@
         }
       }
     },
-    "/time_messages/{id}": {
+    "/users/{user_email}/time_messages/{id}": {
       "parameters": [
+        {
+          "name": "user_email",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
         {
           "name": "id",
           "in": "path",
@@ -74,10 +184,8 @@
         }
       ],
       "get": {
-        "summary": "Retrieves a TimeMessage",
-        "tags": [
-          "TimeMessages"
-        ],
+        "summary": "Retrieve a TimeMessage for a User",
+        "tags": ["TimeMessages"],
         "responses": {
           "200": {
             "description": "time_message found",
@@ -89,8 +197,8 @@
                     "id": {
                       "type": "integer"
                     },
-                    "user_id": {
-                      "type": "integer"
+                    "user_email": {
+                      "type": "string"
                     },
                     "content": {
                       "type": "string"
@@ -100,12 +208,7 @@
                       "format": "date-time"
                     }
                   },
-                  "required": [
-                    "id",
-                    "user_id",
-                    "content",
-                    "date_to_open"
-                  ]
+                  "required": ["id", "user_email", "content", "date_to_open"]
                 }
               }
             }
@@ -116,20 +219,8 @@
         }
       },
       "patch": {
-        "summary": "Updates a TimeMessage",
-        "tags": [
-          "TimeMessages"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer"
-            }
-          }
-        ],
+        "summary": "Update a TimeMessage for a User",
+        "tags": ["TimeMessages"],
         "responses": {
           "200": {
             "description": "time_message updated"
@@ -158,180 +249,14 @@
         }
       },
       "delete": {
-        "summary": "Deletes a TimeMessage",
-        "tags": [
-          "TimeMessages"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer"
-            }
-          }
-        ],
+        "summary": "Delete a TimeMessage for a User",
+        "tags": ["TimeMessages"],
         "responses": {
           "200": {
             "description": "time_message deleted"
           },
           "404": {
             "description": "time_message not found"
-          }
-        }
-      }
-    },
-    "/users": {
-      "get": {
-        "summary": "List all Users",
-        "tags": [
-          "Users"
-        ],
-        "responses": {
-          "200": {
-            "description": "list of users"
-          }
-        }
-      },
-      "post": {
-        "summary": "Create a User",
-        "tags": [
-          "Users"
-        ],
-        "parameters": [
-
-        ],
-        "responses": {
-          "201": {
-            "description": "user created"
-          },
-          "422": {
-            "description": "invalid request"
-          }
-        },
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "email": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "email"
-                ]
-              }
-            }
-          }
-        }
-      }
-    },
-    "/users/{id}": {
-      "parameters": [
-        {
-          "name": "id",
-          "in": "path",
-          "required": true,
-          "schema": {
-            "type": "integer"
-          }
-        }
-      ],
-      "get": {
-        "summary": "Retrieves a User",
-        "tags": [
-          "Users"
-        ],
-        "responses": {
-          "200": {
-            "description": "user found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "integer"
-                    },
-                    "email": {
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "id",
-                    "email"
-                  ]
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "user not found"
-          }
-        }
-      },
-      "patch": {
-        "summary": "Updates a User",
-        "tags": [
-          "Users"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "user updated"
-          },
-          "422": {
-            "description": "invalid request"
-          }
-        },
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "email": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "summary": "Deletes a User",
-        "tags": [
-          "Users"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "user deleted"
-          },
-          "404": {
-            "description": "user not found"
           }
         }
       }

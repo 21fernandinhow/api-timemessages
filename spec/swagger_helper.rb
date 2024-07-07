@@ -28,20 +28,20 @@ RSpec.describe 'TimeMessages API', type: :request do
       parameter name: :time_message, in: :body, schema: {
         type: :object,
         properties: {
-          user_id: { type: :integer },
+          user_email: { type: :string },
           content: { type: :string },
           date_to_open: { type: :string, format: 'date-time' }
         },
-        required: [ 'user_id', 'content', 'date_to_open' ]
+        required: [ 'user_email', 'content', 'date_to_open' ]
       }
 
       response '201', 'time_message created' do
-        let(:time_message) { { user_id: 1, content: 'A message to the future', date_to_open: '2025-01-01T00:00:00Z' } }
+        let(:time_message) { { user_email: 1, content: 'A message to the future', date_to_open: '2025-01-01T00:00:00Z' } }
         run_test!
       end
 
       response '422', 'invalid request' do
-        let(:time_message) { { user_id: 1 } }
+        let(:time_message) { { user_email: 1 } }
         run_test!
       end
     end
@@ -67,13 +67,13 @@ RSpec.describe 'TimeMessages API', type: :request do
         schema type: :object,
           properties: {
             id: { type: :integer },
-            user_id: { type: :integer },
+            user_email: { type: :integer },
             content: { type: :string },
             date_to_open: { type: :string, format: 'date-time' }
           },
-          required: [ 'id', 'user_id', 'content', 'date_to_open' ]
+          required: [ 'id', 'user_email', 'content', 'date_to_open' ]
 
-        let(:id) { TimeMessage.create(user_id: 1, content: 'A message to the future', date_to_open: '2025-01-01T00:00:00Z').id }
+        let(:id) { TimeMessage.create(user_email: 1, content: 'A message to the future', date_to_open: '2025-01-01T00:00:00Z').id }
         run_test!
       end
 
@@ -96,7 +96,7 @@ RSpec.describe 'TimeMessages API', type: :request do
       }
 
       response '200', 'time_message updated' do
-        let(:id) { TimeMessage.create(user_id: 1, content: 'A message to the future', date_to_open: '2025-01-01T00:00:00Z').id }
+        let(:id) { TimeMessage.create(user_email: 1, content: 'A message to the future', date_to_open: '2025-01-01T00:00:00Z').id }
         let(:time_message) { { content: 'Updated message', date_to_open: '2025-12-31T00:00:00Z' } }
         run_test!
       end
@@ -113,7 +113,7 @@ RSpec.describe 'TimeMessages API', type: :request do
       parameter name: :id, in: :path, type: :integer
 
       response '200', 'time_message deleted' do
-        let(:id) { TimeMessage.create(user_id: 1, content: 'A message to delete', date_to_open: '2025-01-01T00:00:00Z').id }
+        let(:id) { TimeMessage.create(user_email: 1, content: 'A message to delete', date_to_open: '2025-01-01T00:00:00Z').id }
         run_test!
       end
 

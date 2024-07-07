@@ -15,22 +15,22 @@ paths:
         '201':
           description: time_message created
         '422':
-          description: invalid request
+          description: invalemail request
       requestBody:
         content:
           application/json:
             schema:
               type: object
               properties:
-                user_id:
-                  type: integer
+                user_email:
+                  type: string
                 content:
                   type: string
                 date_to_open:
                   type: string
                   format: date-time
               required:
-              - user_id
+              - user_email
               - content
               - date_to_open
     get:
@@ -40,9 +40,9 @@ paths:
       responses:
         '200':
           description: list of time_messages
-  "/time_messages/{id}":
+  "/time_messages/{email}":
     parameters:
-    - name: id
+    - name: email
       in: path
       required: true
       schema:
@@ -59,18 +59,18 @@ paths:
               schema:
                 type: object
                 properties:
-                  id:
+                  email:
                     type: integer
-                  user_id:
-                    type: integer
+                  user_email:
+                    type: string
                   content:
                     type: string
                   date_to_open:
                     type: string
                     format: date-time
                 required:
-                - id
-                - user_id
+                - email
+                - user_email
                 - content
                 - date_to_open
         '404':
@@ -80,7 +80,7 @@ paths:
       tags:
       - TimeMessages
       parameters:
-      - name: id
+      - name: email
         in: path
         required: true
         schema:
@@ -89,7 +89,7 @@ paths:
         '200':
           description: time_message updated
         '422':
-          description: invalid request
+          description: invalemail request
       requestBody:
         content:
           application/json:
@@ -106,7 +106,7 @@ paths:
       tags:
       - TimeMessages
       parameters:
-      - name: id
+      - name: email
         in: path
         required: true
         schema:
@@ -133,7 +133,7 @@ paths:
         '201':
           description: user created
         '422':
-          description: invalid request
+          description: invalemail request
       requestBody:
         content:
           application/json:
@@ -144,9 +144,9 @@ paths:
                   type: string
               required:
               - email
-  "/users/{id}":
+  "/users/{email}":
     parameters:
-    - name: id
+    - name: email
       in: path
       required: true
       schema:
@@ -163,12 +163,12 @@ paths:
               schema:
                 type: object
                 properties:
-                  id:
+                  email:
                     type: integer
                   email:
                     type: string
                 required:
-                - id
+                - email
                 - email
         '404':
           description: user not found
@@ -177,7 +177,7 @@ paths:
       tags:
       - Users
       parameters:
-      - name: id
+      - name: email
         in: path
         required: true
         schema:
@@ -186,7 +186,7 @@ paths:
         '200':
           description: user updated
         '422':
-          description: invalid request
+          description: invalemail request
       requestBody:
         content:
           application/json:
@@ -200,7 +200,7 @@ paths:
       tags:
       - Users
       parameters:
-      - name: id
+      - name: email
         in: path
         required: true
         schema:
