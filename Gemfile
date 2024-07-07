@@ -64,3 +64,6 @@ end
 
 # Create Docs for the API
 gem 'rswag'
+
+#CORS
+gem 'rack-cors'

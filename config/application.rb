@@ -36,6 +36,16 @@ module TimeCapsule
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
+     # Config CORS
+     config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins 'http://localhost:5173', 'https://timemessages.vercel.app'
+        resource '*',
+          headers: :any,
+          methods: [:get, :post, :put, :patch, :delete, :options, :head]
+      end
+    end
+
     # Don't generate system test files.
     config.generators.system_tests = nil
   end
